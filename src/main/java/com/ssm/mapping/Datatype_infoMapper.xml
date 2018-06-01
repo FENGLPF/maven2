@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.dao.Datatype_infoMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.model.Datatype_info" >
+    <id column="DT_id" property="dtId" jdbcType="INTEGER" />
+    <result column="DT_Name" property="dtName" jdbcType="CHAR" />
+    <result column="DT_Unit" property="dtUnit" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DT_id, DT_Name, DT_Unit
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.model.Datatype_infoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from datatype_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from datatype_info
+    where DT_id = #{dtId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from datatype_info
+    where DT_id = #{dtId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.model.Datatype_infoExample" >
+    delete from datatype_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.model.Datatype_info" >
+    insert into datatype_info (DT_id, DT_Name, DT_Unit
+      )
+    values (#{dtId,jdbcType=INTEGER}, #{dtName,jdbcType=CHAR}, #{dtUnit,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.model.Datatype_info" >
+    insert into datatype_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dtId != null" >
+        DT_id,
+      </if>
+      <if test="dtName != null" >
+        DT_Name,
+      </if>
+      <if test="dtUnit != null" >
+        DT_Unit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dtId != null" >
+        #{dtId,jdbcType=INTEGER},
+      </if>
+      <if test="dtName != null" >
+        #{dtName,jdbcType=CHAR},
+      </if>
+      <if test="dtUnit != null" >
+        #{dtUnit,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.model.Datatype_infoExample" resultType="java.lang.Integer" >
+    select count(*) from datatype_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update datatype_info
+    <set >
+      <if test="record.dtId != null" >
+        DT_id = #{record.dtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtName != null" >
+        DT_Name = #{record.dtName,jdbcType=CHAR},
+      </if>
+      <if test="record.dtUnit != null" >
+        DT_Unit = #{record.dtUnit,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update datatype_info
+    set DT_id = #{record.dtId,jdbcType=INTEGER},
+      DT_Name = #{record.dtName,jdbcType=CHAR},
+      DT_Unit = #{record.dtUnit,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.model.Datatype_info" >
+    update datatype_info
+    <set >
+      <if test="dtName != null" >
+        DT_Name = #{dtName,jdbcType=CHAR},
+      </if>
+      <if test="dtUnit != null" >
+        DT_Unit = #{dtUnit,jdbcType=CHAR},
+      </if>
+    </set>
+    where DT_id = #{dtId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.model.Datatype_info" >
+    update datatype_info
+    set DT_Name = #{dtName,jdbcType=CHAR},
+      DT_Unit = #{dtUnit,jdbcType=CHAR}
+    where DT_id = #{dtId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.ssm.model.Datatype_infoExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from datatype_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

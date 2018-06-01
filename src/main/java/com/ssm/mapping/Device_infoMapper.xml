@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.dao.Device_infoMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.model.Device_info" >
+    <id column="D_id" property="dId" jdbcType="INTEGER" />
+    <result column="M_id" property="mId" jdbcType="INTEGER" />
+    <result column="D_Rid" property="dRid" jdbcType="INTEGER" />
+    <result column="D_Name" property="dName" jdbcType="CHAR" />
+    <result column="D_Sn" property="dSn" jdbcType="CHAR" />
+    <result column="D_CCID_No" property="dCcidNo" jdbcType="CHAR" />
+    <result column="D_Made_Date" property="dMadeDate" jdbcType="TIMESTAMP" />
+    <result column="D_Active_Date" property="dActiveDate" jdbcType="TIMESTAMP" />
+    <result column="D_Ver" property="dVer" jdbcType="CHAR" />
+    <result column="D_BoxNo" property="dBoxno" jdbcType="INTEGER" />
+    <result column="D_State" property="dState" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    D_id, M_id, D_Rid, D_Name, D_Sn, D_CCID_No, D_Made_Date, D_Active_Date, D_Ver, D_BoxNo, 
+    D_State
+  </sql>
+  
+  <!-- sql语句 -->
+  <select id="getAllDevice" resultMap="BaseResultMap">
+  	select 
+	*
+    from device_info
+  </select>
+  
+  <select id="getOneDevice" parameterType="int" resultMap="BaseResultMap">
+  	select *from Device_info where D_id=#{D_id}
+  </select>
+  
+  <update id="updateDeviceName" parameterType="Map">
+  	update Device_info set D_Name=#{dName} where D_Sn=#{dSn}
+  </update>
+  
+  <!-- end sql语句  -->
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.model.Device_infoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from device_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_info
+    where D_id = #{dId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from device_info
+    where D_id = #{dId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.model.Device_infoExample" >
+    delete from device_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.model.Device_info" >
+    insert into device_info (D_id, M_id, D_Rid, 
+      D_Name, D_Sn, D_CCID_No, D_Made_Date, 
+      D_Active_Date, D_Ver, D_BoxNo, 
+      D_State)
+    values (#{dId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{dRid,jdbcType=INTEGER}, 
+      #{dName,jdbcType=CHAR}, #{dSn,jdbcType=CHAR}, #{dCcidNo,jdbcType=CHAR}, #{dMadeDate,jdbcType=TIMESTAMP}, 
+      #{dActiveDate,jdbcType=TIMESTAMP}, #{dVer,jdbcType=CHAR}, #{dBoxno,jdbcType=INTEGER}, 
+      #{dState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.model.Device_info" >
+    insert into device_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dId != null" >
+        D_id,
+      </if>
+      <if test="mId != null" >
+        M_id,
+      </if>
+      <if test="dRid != null" >
+        D_Rid,
+      </if>
+      <if test="dName != null" >
+        D_Name,
+      </if>
+      <if test="dSn != null" >
+        D_Sn,
+      </if>
+      <if test="dCcidNo != null" >
+        D_CCID_No,
+      </if>
+      <if test="dMadeDate != null" >
+        D_Made_Date,
+      </if>
+      <if test="dActiveDate != null" >
+        D_Active_Date,
+      </if>
+      <if test="dVer != null" >
+        D_Ver,
+      </if>
+      <if test="dBoxno != null" >
+        D_BoxNo,
+      </if>
+      <if test="dState != null" >
+        D_State,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dId != null" >
+        #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null" >
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="dRid != null" >
+        #{dRid,jdbcType=INTEGER},
+      </if>
+      <if test="dName != null" >
+        #{dName,jdbcType=CHAR},
+      </if>
+      <if test="dSn != null" >
+        #{dSn,jdbcType=CHAR},
+      </if>
+      <if test="dCcidNo != null" >
+        #{dCcidNo,jdbcType=CHAR},
+      </if>
+      <if test="dMadeDate != null" >
+        #{dMadeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dActiveDate != null" >
+        #{dActiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dVer != null" >
+        #{dVer,jdbcType=CHAR},
+      </if>
+      <if test="dBoxno != null" >
+        #{dBoxno,jdbcType=INTEGER},
+      </if>
+      <if test="dState != null" >
+        #{dState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.model.Device_infoExample" resultType="java.lang.Integer" >
+    select count(*) from device_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update device_info
+    <set >
+      <if test="record.dId != null" >
+        D_id = #{record.dId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mId != null" >
+        M_id = #{record.mId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dRid != null" >
+        D_Rid = #{record.dRid,jdbcType=INTEGER},
+      </if>
+      <if test="record.dName != null" >
+        D_Name = #{record.dName,jdbcType=CHAR},
+      </if>
+      <if test="record.dSn != null" >
+        D_Sn = #{record.dSn,jdbcType=CHAR},
+      </if>
+      <if test="record.dCcidNo != null" >
+        D_CCID_No = #{record.dCcidNo,jdbcType=CHAR},
+      </if>
+      <if test="record.dMadeDate != null" >
+        D_Made_Date = #{record.dMadeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dActiveDate != null" >
+        D_Active_Date = #{record.dActiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dVer != null" >
+        D_Ver = #{record.dVer,jdbcType=CHAR},
+      </if>
+      <if test="record.dBoxno != null" >
+        D_BoxNo = #{record.dBoxno,jdbcType=INTEGER},
+      </if>
+      <if test="record.dState != null" >
+        D_State = #{record.dState,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update device_info
+    set D_id = #{record.dId,jdbcType=INTEGER},
+      M_id = #{record.mId,jdbcType=INTEGER},
+      D_Rid = #{record.dRid,jdbcType=INTEGER},
+      D_Name = #{record.dName,jdbcType=CHAR},
+      D_Sn = #{record.dSn,jdbcType=CHAR},
+      D_CCID_No = #{record.dCcidNo,jdbcType=CHAR},
+      D_Made_Date = #{record.dMadeDate,jdbcType=TIMESTAMP},
+      D_Active_Date = #{record.dActiveDate,jdbcType=TIMESTAMP},
+      D_Ver = #{record.dVer,jdbcType=CHAR},
+      D_BoxNo = #{record.dBoxno,jdbcType=INTEGER},
+      D_State = #{record.dState,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.model.Device_info" >
+    update device_info
+    <set >
+      <if test="mId != null" >
+        M_id = #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="dRid != null" >
+        D_Rid = #{dRid,jdbcType=INTEGER},
+      </if>
+      <if test="dName != null" >
+        D_Name = #{dName,jdbcType=CHAR},
+      </if>
+      <if test="dSn != null" >
+        D_Sn = #{dSn,jdbcType=CHAR},
+      </if>
+      <if test="dCcidNo != null" >
+        D_CCID_No = #{dCcidNo,jdbcType=CHAR},
+      </if>
+      <if test="dMadeDate != null" >
+        D_Made_Date = #{dMadeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dActiveDate != null" >
+        D_Active_Date = #{dActiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dVer != null" >
+        D_Ver = #{dVer,jdbcType=CHAR},
+      </if>
+      <if test="dBoxno != null" >
+        D_BoxNo = #{dBoxno,jdbcType=INTEGER},
+      </if>
+      <if test="dState != null" >
+        D_State = #{dState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where D_id = #{dId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.model.Device_info" >
+    update device_info
+    set M_id = #{mId,jdbcType=INTEGER},
+      D_Rid = #{dRid,jdbcType=INTEGER},
+      D_Name = #{dName,jdbcType=CHAR},
+      D_Sn = #{dSn,jdbcType=CHAR},
+      D_CCID_No = #{dCcidNo,jdbcType=CHAR},
+      D_Made_Date = #{dMadeDate,jdbcType=TIMESTAMP},
+      D_Active_Date = #{dActiveDate,jdbcType=TIMESTAMP},
+      D_Ver = #{dVer,jdbcType=CHAR},
+      D_BoxNo = #{dBoxno,jdbcType=INTEGER},
+      D_State = #{dState,jdbcType=INTEGER}
+    where D_id = #{dId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.ssm.model.Device_infoExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from device_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

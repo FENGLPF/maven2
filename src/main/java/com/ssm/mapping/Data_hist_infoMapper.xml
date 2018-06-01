@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.dao.Data_hist_infoMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.model.Data_hist_info" >
+    <id column="DH_id" property="dhId" jdbcType="INTEGER" />
+    <result column="DT_id" property="dtId" jdbcType="INTEGER" />
+    <result column="D_id" property="dId" jdbcType="INTEGER" />
+    <result column="DH_Data" property="dhData" jdbcType="REAL" />
+    <result column="DH_Date" property="dhDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DH_id, DT_id, D_id, DH_Data, DH_Date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.model.Data_hist_infoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_hist_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from data_hist_info
+    where DH_id = #{dhId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from data_hist_info
+    where DH_id = #{dhId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.model.Data_hist_infoExample" >
+    delete from data_hist_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.model.Data_hist_info" >
+    insert into data_hist_info (DH_id, DT_id, D_id, 
+      DH_Data, DH_Date)
+    values (#{dhId,jdbcType=INTEGER}, #{dtId,jdbcType=INTEGER}, #{dId,jdbcType=INTEGER}, 
+      #{dhData,jdbcType=REAL}, #{dhDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.model.Data_hist_info" >
+    insert into data_hist_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dhId != null" >
+        DH_id,
+      </if>
+      <if test="dtId != null" >
+        DT_id,
+      </if>
+      <if test="dId != null" >
+        D_id,
+      </if>
+      <if test="dhData != null" >
+        DH_Data,
+      </if>
+      <if test="dhDate != null" >
+        DH_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dhId != null" >
+        #{dhId,jdbcType=INTEGER},
+      </if>
+      <if test="dtId != null" >
+        #{dtId,jdbcType=INTEGER},
+      </if>
+      <if test="dId != null" >
+        #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="dhData != null" >
+        #{dhData,jdbcType=REAL},
+      </if>
+      <if test="dhDate != null" >
+        #{dhDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.model.Data_hist_infoExample" resultType="java.lang.Integer" >
+    select count(*) from data_hist_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update data_hist_info
+    <set >
+      <if test="record.dhId != null" >
+        DH_id = #{record.dhId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtId != null" >
+        DT_id = #{record.dtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dId != null" >
+        D_id = #{record.dId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dhData != null" >
+        DH_Data = #{record.dhData,jdbcType=REAL},
+      </if>
+      <if test="record.dhDate != null" >
+        DH_Date = #{record.dhDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update data_hist_info
+    set DH_id = #{record.dhId,jdbcType=INTEGER},
+      DT_id = #{record.dtId,jdbcType=INTEGER},
+      D_id = #{record.dId,jdbcType=INTEGER},
+      DH_Data = #{record.dhData,jdbcType=REAL},
+      DH_Date = #{record.dhDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.model.Data_hist_info" >
+    update data_hist_info
+    <set >
+      <if test="dtId != null" >
+        DT_id = #{dtId,jdbcType=INTEGER},
+      </if>
+      <if test="dId != null" >
+        D_id = #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="dhData != null" >
+        DH_Data = #{dhData,jdbcType=REAL},
+      </if>
+      <if test="dhDate != null" >
+        DH_Date = #{dhDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DH_id = #{dhId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.model.Data_hist_info" >
+    update data_hist_info
+    set DT_id = #{dtId,jdbcType=INTEGER},
+      D_id = #{dId,jdbcType=INTEGER},
+      DH_Data = #{dhData,jdbcType=REAL},
+      DH_Date = #{dhDate,jdbcType=TIMESTAMP}
+    where DH_id = #{dhId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.ssm.model.Data_hist_infoExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_hist_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

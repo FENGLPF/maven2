@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.dao.Data_view_infoMapper" >
+  <resultMap id="BaseResultMap" type="com.ssm.model.Data_view_info" >
+    <id column="DV_id" property="dvId" jdbcType="INTEGER" />
+    <result column="DT_id" property="dtId" jdbcType="INTEGER" />
+    <result column="D_id" property="dId" jdbcType="INTEGER" />
+    <result column="DV_Data" property="dvData" jdbcType="REAL" />
+    <result column="DV_Date" property="dvDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap type="com.ssm.model.Data_view_info" id="view_name">
+  	<id column="DV_id" property="dvId" jdbcType="INTEGER" />
+  	<result column="DV_Data" property="dvData"/>
+  	<result column="DT_id" property="dtId"/>
+  	<association property="datatype_info" javaType="com.ssm.model.Datatype_info">
+  		<result column="DT_Name" property="dtName"/>
+  		<result column="DT_Unit" property="dtUnit"/>
+  	</association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DV_id, DT_id, D_id, DV_Data, DV_Date
+  </sql>
+  
+  <!-- sql语句 -->
+  <select id="selectBydId" resultMap="view_name" parameterType="int">
+  	select *
+  	from data_view_info
+	LEFT JOIN datatype_info on datatype_info.DT_id=data_view_info.DT_id
+	where data_view_info.D_id=#{D_id}
+  </select>
+  <!-- end sql语句 -->
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ssm.model.Data_view_infoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_view_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from data_view_info
+    where DV_id = #{dvId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from data_view_info
+    where DV_id = #{dvId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssm.model.Data_view_infoExample" >
+    delete from data_view_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssm.model.Data_view_info" >
+    insert into data_view_info (DV_id, DT_id, D_id, 
+      DV_Data, DV_Date)
+    values (#{dvId,jdbcType=INTEGER}, #{dtId,jdbcType=INTEGER}, #{dId,jdbcType=INTEGER}, 
+      #{dvData,jdbcType=REAL}, #{dvDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssm.model.Data_view_info" >
+    insert into data_view_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dvId != null" >
+        DV_id,
+      </if>
+      <if test="dtId != null" >
+        DT_id,
+      </if>
+      <if test="dId != null" >
+        D_id,
+      </if>
+      <if test="dvData != null" >
+        DV_Data,
+      </if>
+      <if test="dvDate != null" >
+        DV_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dvId != null" >
+        #{dvId,jdbcType=INTEGER},
+      </if>
+      <if test="dtId != null" >
+        #{dtId,jdbcType=INTEGER},
+      </if>
+      <if test="dId != null" >
+        #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="dvData != null" >
+        #{dvData,jdbcType=REAL},
+      </if>
+      <if test="dvDate != null" >
+        #{dvDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssm.model.Data_view_infoExample" resultType="java.lang.Integer" >
+    select count(*) from data_view_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update data_view_info
+    <set >
+      <if test="record.dvId != null" >
+        DV_id = #{record.dvId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtId != null" >
+        DT_id = #{record.dtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dId != null" >
+        D_id = #{record.dId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dvData != null" >
+        DV_Data = #{record.dvData,jdbcType=REAL},
+      </if>
+      <if test="record.dvDate != null" >
+        DV_Date = #{record.dvDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update data_view_info
+    set DV_id = #{record.dvId,jdbcType=INTEGER},
+      DT_id = #{record.dtId,jdbcType=INTEGER},
+      D_id = #{record.dId,jdbcType=INTEGER},
+      DV_Data = #{record.dvData,jdbcType=REAL},
+      DV_Date = #{record.dvDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.model.Data_view_info" >
+    update data_view_info
+    <set >
+      <if test="dtId != null" >
+        DT_id = #{dtId,jdbcType=INTEGER},
+      </if>
+      <if test="dId != null" >
+        D_id = #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="dvData != null" >
+        DV_Data = #{dvData,jdbcType=REAL},
+      </if>
+      <if test="dvDate != null" >
+        DV_Date = #{dvDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DV_id = #{dvId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssm.model.Data_view_info" >
+    update data_view_info
+    set DT_id = #{dtId,jdbcType=INTEGER},
+      D_id = #{dId,jdbcType=INTEGER},
+      DV_Data = #{dvData,jdbcType=REAL},
+      DV_Date = #{dvDate,jdbcType=TIMESTAMP}
+    where DV_id = #{dvId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.ssm.model.Data_view_infoExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_view_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
